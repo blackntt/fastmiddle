@@ -1,4 +1,4 @@
-package fashttp-middleware
+package fastmiddle
 
 import "github.com/valyala/fasthttp"
 

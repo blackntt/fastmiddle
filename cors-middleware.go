@@ -1,4 +1,7 @@
-package fasthttp-middleware
+package fastmiddle
+
+import "github.com/valyala/fasthttp"
+
 //CORSMiddleWare ...
 type CORSMiddleWare struct {
 	next MiddleWare
