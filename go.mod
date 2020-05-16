@@ -1,4 +1,4 @@
-module github.com/blackntt/fasthttp-middleware
+module github.com/blackntt/fastmiddle
 
 go 1.14
 
