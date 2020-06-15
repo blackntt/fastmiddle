@@ -9,7 +9,7 @@ type CORSMiddleWare struct {
 
 //Apply ...
 func (m CORSMiddleWare) Apply(next fasthttp.RequestHandler) fasthttp.RequestHandler {
-	corsAllowHeaders := "*"
+	corsAllowHeaders := "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization"
 	corsAllowMethods := "HEAD,GET,POST,PUT,DELETE,OPTIONS"
 	corsAllowOrigin := "*"
 	corsAllowCredentials := "true"
