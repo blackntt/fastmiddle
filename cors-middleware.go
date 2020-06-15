@@ -9,14 +9,12 @@ type CORSMiddleWare struct {
 
 //Apply ...
 func (m CORSMiddleWare) Apply(next fasthttp.RequestHandler) fasthttp.RequestHandler {
-	corsAllowHeaders := "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization"
-	corsAllowMethods := "HEAD,GET,POST,PUT,DELETE,OPTIONS"
 	corsAllowOrigin := "*"
 	corsAllowCredentials := "true"
 	newHandler := func(ctx *fasthttp.RequestCtx) {
 		ctx.Response.Header.Set("Access-Control-Allow-Credentials", corsAllowCredentials)
 		ctx.Response.Header.Set("Access-Control-Allow-Headers", string(ctx.Request.Header.Peek("Origin")))
-		ctx.Response.Header.Set("Access-Control-Allow-Methods", corsAllowMethods)
+		ctx.Response.Header.Set("Access-Control-Allow-Methods", string(ctx.Request.Header.Peek("Access-Control-Request-Method")))
 		ctx.Response.Header.Set("Access-Control-Allow-Origin", corsAllowOrigin)
 		next(ctx)
 	}
