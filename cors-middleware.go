@@ -2,22 +2,19 @@ package fastmiddle
 
 import "github.com/valyala/fasthttp"
 
-//CORSMiddleWare ...
+//CORSMiddleWare wrap CORS protocol inside
 type CORSMiddleWare struct {
+	cors CorsProtocol
 	next MiddleWare
 }
 
-//Apply ...
 func (m CORSMiddleWare) Apply(next fasthttp.RequestHandler) fasthttp.RequestHandler {
-	corsAllowHeaders := "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization"
-	corsAllowMethods := "HEAD,GET,POST,PUT,DELETE,OPTIONS"
-	corsAllowOrigin := "*"
-	corsAllowCredentials := "true"
+
 	newHandler := func(ctx *fasthttp.RequestCtx) {
-		ctx.Response.Header.Set("Access-Control-Allow-Credentials", corsAllowCredentials)
-		ctx.Response.Header.Set("Access-Control-Allow-Headers", corsAllowHeaders)
-		ctx.Response.Header.Set("Access-Control-Allow-Methods", corsAllowMethods)
-		ctx.Response.Header.Set("Access-Control-Allow-Origin", corsAllowOrigin)
+		ctx = m.cors.handle(ctx)
+		if ctx.Response.StatusCode() == fasthttp.StatusForbidden {
+			return
+		}
 		next(ctx)
 	}
 	if m.next != nil {
@@ -29,4 +26,10 @@ func (m CORSMiddleWare) Apply(next fasthttp.RequestHandler) fasthttp.RequestHand
 //SetNext ...
 func (m CORSMiddleWare) SetNext(next MiddleWare) {
 	m.next = next
+}
+
+func NewDefaultCORSMiddleWare() CORSMiddleWare {
+	return CORSMiddleWare{
+		cors: NewDefaultCorsProtocol(),
+	}
 }
