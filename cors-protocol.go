@@ -85,6 +85,7 @@ func (cors CorsProtocol) handlePreflight(ctx *fasthttp.RequestCtx) *fasthttp.Req
 		ctx.SetStatusCode(fasthttp.StatusForbidden)
 		return ctx
 	}
+
 	ctx.Response.Header.Set("Access-Control-Allow-Origin", requestOrigin)
 	//2.Access-Control-Allow-Credentials
 	ctx.Response.Header.Set("Access-Control-Allow-Credentials", cors.isAllowCredentials)
@@ -107,7 +108,7 @@ func NewDefaultCorsProtocol() CorsProtocol {
 	return CorsProtocol{
 		isAllowCredentials: "true",
 		maxAge:             "20",
-		allowedHeaders:     map[string]bool{"Accept": true, "Content-Type": true, "Content-Length": true, " Accept-Encoding": true, " X-CSRF-Token": true, "Authorization": true},
+		allowedHeaders:     map[string]bool{"accept": true, "content-type": true, "content-length": true, "accept-encoding": true, " X-CSRF-token": true, "authorization": true},
 		allowedOrigins:     map[string]bool{"*": true},
 		allowedMethods:     map[string]bool{"HEAD": true, "GET": true, "POST": true, "PUT": true, "DELETE": true, "OPTIONS": true},
 	}
